@@ -1,59 +1,51 @@
 import React from "react";
 import { useState } from "react";
 
-const Planeta = ({ planet }) => {
+const Planeta = ({ planet, actualizar, jugada }) => {
   const id = planet.id;
   const [reverso, setReverso] = useState();
-  const [jugadas, setJugadas] = useState([]);
-  const cartaArriba = () => {
-  
+  const [resuelto, setResuelto] = useState(false);
 
-   setReverso(!reverso)
-   
-    
-    // if (id === id) {
-    //   jugada.push(event);
-    //   console.log(event);
-    // } else {
-    //   console.log("un pasito");
-    // }
+  const cartaArriba = () => {
+    jugada.push({ name: planet.name, id: planet.id });
+    console.log(jugada);
+
+    if (jugada.length === 2) {
+      if (jugada[0].name === jugada[1].name && jugada[0].id != jugada[1].id) {
+        setResuelto(!resuelto);
+      }
+      actualizar([]);
+    }
 
     setReverso(!reverso);
   };
 
-  const clickCard = () => {
-    jugadas.push(planet.name)
-    const nuevasJugadas = [...jugadas, planet.name];
-    // let x = ([...jugadas,id])
-    setJugadas(nuevasJugadas);
-    console.log(nuevasJugadas)
-    // if (planet.name && planet.img === planet.name && planet.img){
-    //   console.log("hi")}
-    //  else{
-    //   console.log("no funciona")
-    //  } 
-     
-     
-     console.log(jugadas)
+  if (resuelto) {
+    return (
+      <img
+        className="planeta"
+        src="http://localhost:3000/fotos/tick.svg"
+        alt="imagenes"
+      />
+    );
+  }
+  if (reverso) {
+    return (
+      <img
+        className="planeta"
+        onClick={cartaArriba}
+        src={planet.img}
+        alt="imagenes"
+      />
+    );
   }
 
   return (
-    <>
-      {reverso ? (
-        <img
-          onClick={() => {cartaArriba(); clickCard();}}
-          className="planeta"
-          src={planet.img}
-          alt="imagenes"
-        />
-      ) : (
-        <img
-          onClick={cartaArriba}
-          src="http://localhost:3000/fotos/universe.svg"
-          alt="imagen"
-        />
-      )}
-    </>
+    <img
+      onClick={cartaArriba}
+      src="http://localhost:3000/fotos/universe.svg"
+      alt="imagen"
+    />
   );
 };
 
